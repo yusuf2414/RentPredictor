@@ -134,6 +134,10 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
+
+# Ignore large dataset
+src/apartments_for_rent_classified_100K.csv
+
 # Environments
 .env
 .envrc
