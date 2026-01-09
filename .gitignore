@@ -138,6 +138,11 @@ celerybeat.pid
 # Ignore large dataset
 src/apartments_for_rent_classified_100K.csv
 
+
+###### Trained Model 
+models/best_pipeline.pkl
+mlruns/
+
 # Environments
 .env
 .envrc

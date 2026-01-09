@@ -1,3 +1,6 @@
 pandas
 numpy
 seaborn
+joblib
+scikit-learn
+

@@ -28,6 +28,7 @@ class DataImportation:
                 
             #file_path = f'Hotel_Reviews.csv'
             self.df = pd.read_csv(file_path , encoding='windows-1252' , sep = ';' )
+            logging.info(f"Data has been successfully read")
 
         except Exception as e:
             logging.error(f"Error while combining files: {e}")
@@ -40,7 +41,17 @@ class DataImportation:
         try:
             
             self.df['pets_allowed'] = self.df['pets_allowed'].fillna('no_pets_allowed')
+
+            self.df['pets_allowed'] = self.df['pets_allowed'].replace({
+                    'Cats,Dogs': 'Both',
+                    'Dogs,Cats': 'Both',
+                    'Cats,Dogs,None': 'NotSure',
+                    'no_pets_allowed': np.nan
+                })
+            
             self.df['bedrooms'] = self.df['bedrooms'].fillna(0)
+
+            
             self.df['datetime_utc'] = pd.to_datetime(self.df['time'], unit='s', utc=True)
             self.df['log_price'] = np.log1p(self.df['price'])
             
@@ -84,6 +95,8 @@ class DataImportation:
 
             self.df = self.df.dropna()
 
+            logging.info(f"data Transformation has been completed and no errors")
+
         except Exception as e:
             logging.error(f"Error while combining files: {e}")
             raise
@@ -98,7 +111,7 @@ class DataImportation:
             columns_to_remove = [ 
                 'source' , 'price_type','amenities_clean','amenity_cluster','category' ,'body',
                 'amenities','time','title', 'currency' ,'price_display',
-                 'id' ,'cityname' ,'state','datetime_utc'  , 'price',
+                 'id' ,'cityname' ,'state','datetime_utc', 'price',
                  'address'
             ]
 
@@ -109,6 +122,8 @@ class DataImportation:
 
             rent_cleaned_data_path = os.path.join(data_folder ,"Training_data.csv" )    
             self.df.to_csv(rent_cleaned_data_path)
+
+            logging.info(f"Training data has been saved")
         
         except Exception as e:
             logging.error(f"Error while combining files: {e}")
