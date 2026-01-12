@@ -6,7 +6,8 @@ from predict_folder.predictor import RentPricePredictor
 
 
 importer = DataImportation()
-df = importer.datareading()
+raw_file_path = r'src/apartments_for_rent_classified_100K.csv'
+df = importer.datareading(raw_file_path)
 df = importer.transformation()
 df=  importer.remove_columns()
 

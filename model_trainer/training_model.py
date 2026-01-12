@@ -37,6 +37,14 @@ os.makedirs(model_folder, exist_ok=True)
 class TRAINING_MODEL:
 
     def model_selection(self, df: pd.DataFrame):
+        
+        '''
+        if you are doing this locally without EC2 Instance you dont need this 
+        mlflow.set_tracking_uri("http://18.144.41.74:5000") always change the IP address
+        accordingly
+        '''
+
+        mlflow.set_tracking_uri("http://18.144.41.74:5000")
 
         mlflow.set_experiment("Rent_Price_Prediction")
         '''

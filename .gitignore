@@ -137,7 +137,9 @@ celerybeat.pid
 
 # Ignore large dataset
 src/apartments_for_rent_classified_100K.csv
-
+tmp_processed.csv
+tmp_raw.csv
+data_cleaned_testing.csv
 
 ###### Trained Model 
 models/best_pipeline.pkl

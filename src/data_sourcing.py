@@ -17,17 +17,17 @@ class DataImportation:
     def __init__(self):
         self.df = None 
 
-    def datareading(self):
-        file_path = r'src/apartments_for_rent_classified_100K.csv'
+    def datareading(self,raw_file_path):
+        #file_path = r'src/apartments_for_rent_classified_100K.csv'
 
         try:
-            if os.path.exists(file_path):
-                print(f"The path '{file_path}' exists.")
+            if os.path.exists(raw_file_path):
+                print(f"The path '{raw_file_path}' exists.")
             else:
-                print(f"The path '{file_path}' does not exist.")
+                print(f"The path '{raw_file_path}' does not exist.")
                 
             #file_path = f'Hotel_Reviews.csv'
-            self.df = pd.read_csv(file_path , encoding='windows-1252' , sep = ';' )
+            self.df = pd.read_csv(raw_file_path , encoding='windows-1252' , sep = ';' )
             logging.info(f"Data has been successfully read")
 
         except Exception as e:
