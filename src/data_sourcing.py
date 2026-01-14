@@ -42,12 +42,12 @@ class DataImportation:
             
             self.df['pets_allowed'] = self.df['pets_allowed'].fillna('no_pets_allowed')
 
-            self.df['pets_allowed'] = self.df['pets_allowed'].replace({
-                    'Cats,Dogs': 'Both',
-                    'Dogs,Cats': 'Both',
-                    'Cats,Dogs,None': 'NotSure',
-                    'no_pets_allowed': np.nan
-                })
+            #self.df['pets_allowed'] = self.df['pets_allowed'].replace({
+                    #'Cats,Dogs': 'Both',
+                    #'Dogs,Cats': 'Both',
+                    #'Cats,Dogs,None': 'NotSure',
+                    #'no_pets_allowed': np.nan
+                #})  the reason i am changing this because i notice there is an improvement in the RMSE
             
             self.df['bedrooms'] = self.df['bedrooms'].fillna(0)
 

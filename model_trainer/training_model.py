@@ -44,7 +44,7 @@ class TRAINING_MODEL:
         accordingly
         '''
 
-        mlflow.set_tracking_uri("http://18.144.41.74:5000")
+        mlflow.set_tracking_uri("http://54.193.111.158:5000")
 
         mlflow.set_experiment("Rent_Price_Prediction")
         '''

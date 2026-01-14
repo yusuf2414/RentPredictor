@@ -17,10 +17,18 @@ RUN pip install --no-cache-dir \
 
 EXPOSE 5000
 
+#### There is a process change from mlflow check website that is why i hardcorded
+##### the allowed hosts to the public IP address , I will change this later 
+##### please see website changes https://mlflow.org/docs/latest/self-hosting/security/network/
+####  i  got such an error if the website changes were not implemented 
+### Invalid Host header - possible DNS rebinding attack detected
+
 CMD mlflow server \
     --host 0.0.0.0 \
     --port 5000 \
-    --serve-artifacts \
+    --allowed-hosts "54.193.111.158:5000" \
+    --cors-allowed-origins "*" \
     --backend-store-uri sqlite:///mlflow.db \
-    --default-artifact-root s3://rentpredictionyusuf/models \
-    --gunicorn-opts "--timeout 120 --forwarded-allow-ips='*'"
+    --default-artifact-root s3://rentpredictionyusuf/mlflow-artifacts
+
+
