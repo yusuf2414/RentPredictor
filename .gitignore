@@ -146,6 +146,7 @@ models/best_pipeline.pkl
 mlruns/
 logs/
 mlflow.db
+remember.txt
 
 # Environments
 .env
