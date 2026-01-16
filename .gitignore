@@ -144,6 +144,8 @@ data_cleaned_testing.csv
 ###### Trained Model 
 models/best_pipeline.pkl
 mlruns/
+logs/
+mlflow.db
 
 # Environments
 .env

@@ -54,7 +54,7 @@ class RentPricePredictor:
             logging.error(f"Error while combining files: {e}")
             raise
         
-
+'''
 if __name__ == "__main__":
     MODEL_PATH = os.path.join("models", "best_pipeline.pkl")
     TEST_DATA_PATH = os.path.join("data_folder", "testing_data.csv")
@@ -68,4 +68,4 @@ if __name__ == "__main__":
     print(f"RMSE: {metrics['rmse']:.4f}")
     print(f"R²: {metrics['r2']:.4f}")
 
-        
+'''

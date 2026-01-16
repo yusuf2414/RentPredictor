@@ -1,0 +1,24 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# System deps
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements first (layer caching)
+COPY requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy project code
+COPY . .
+
+# Environment variables (can be overridden by CI)
+ENV MLFLOW_TRACKING_URI=http://54.193.111.158:5000
+ENV AWS_DEFAULT_REGION=us-west-1
+
+# Run training
+CMD ["python", "app.py"]

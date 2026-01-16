@@ -1,36 +1,54 @@
 import os
-import pandas as pd 
+import pandas as pd
+
 from src.data_sourcing import DataImportation
 from model_trainer.training_model import TRAINING_MODEL
-from predict_folder.predictor import RentPricePredictor
+from src.s3_utils import download_from_s3, upload_to_s3
 
+BUCKET = "rentpredictionyusuf"
 
+RAW_KEY = "raw_data/apartments_for_rent_classified_100K.csv"
+PROCESSED_KEY = "processed_data/training_data.csv"
+MODEL_KEY = "models/best_pipeline.pkl"
+
+BASE_DIR = os.getcwd()
+
+LOCAL_RAW = os.path.join(BASE_DIR, "tmp_raw.csv")
+LOCAL_PROCESSED = os.path.join(BASE_DIR, "tmp_processed.csv")
+LOCAL_MODEL = os.path.join(BASE_DIR, "models", "best_pipeline.pkl")
+
+os.makedirs("models", exist_ok=True)
+
+print("Downloading raw data from S3...")
+download_from_s3(BUCKET, RAW_KEY, LOCAL_RAW)
+
+print("Processing raw data...")
 importer = DataImportation()
-raw_file_path = r'src/apartments_for_rent_classified_100K.csv'
-df = importer.datareading(raw_file_path)
+df = importer.datareading(LOCAL_RAW)
 df = importer.transformation()
-df=  importer.remove_columns()
+df = importer.remove_columns()
 
-#Model Training 
-### intiation of the trained data 
+df.to_csv(LOCAL_PROCESSED, index=False)
+
+print("Uploading processed training data to S3...")
+upload_to_s3(
+    local_path=LOCAL_PROCESSED,
+    #bucket=BUCKET,
+    s3_key=PROCESSED_KEY
+)
+
+print("Training model...")
 training_model = TRAINING_MODEL()
 best_pipeline, best_score = training_model.model_selection(df)
 
+print(f"Best RMSE: {best_score:.4f}")
 
-MODEL_PATH = os.path.join("models", "best_pipeline.pkl")
-TEST_DATA_PATH = os.path.join("data_folder", "testing_data.csv")
+print("Uploading trained model to S3...")
+upload_to_s3(
+    local_path=LOCAL_MODEL,
+    #bucket=BUCKET,
+    s3_key=MODEL_KEY
+)
 
-predictor = RentPricePredictor(MODEL_PATH)
-
-df_test = pd.read_csv(TEST_DATA_PATH)
-
-metrics = predictor.evaluate(df_test)
-
-print(f"RMSE: {metrics['rmse']:.4f}")
-print(f"R²: {metrics['r2']:.4f}")
-
-
-
-
-
-
+print("Training pipeline completed successfully.")
+print(f"Model saved to → s3://{BUCKET}/{MODEL_KEY}")
